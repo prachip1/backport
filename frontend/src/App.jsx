@@ -6,6 +6,8 @@ import ConnectWebsite from './connect-website';
 import AddContents from './add-contents';
 import Home from './Home';
 import { Toaster } from 'react-hot-toast';
+import AddProjects from './add-contents/add-projects';
+import AddTools from './add-contents/add-tools';
 
 function App() {
   const { isSignedIn } = useAuth(); // Get the sign-in status from Clerk
@@ -21,7 +23,7 @@ function App() {
 
   return (
     <div className='flex flex-col justify-center items-center w-full'>
-      <h2>Hey</h2>
+      
       <Toaster />
       <header>
         <SignedOut>
@@ -36,6 +38,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/connect-website" element={<ConnectWebsite />} />
         <Route path="/add-contents" element={<AddContents />} />
+        <Route path="/add-projects" element={<AddProjects />} />
+        <Route path="/add-tools" element={<AddTools />} />
       </Routes>
     </div>
   );
