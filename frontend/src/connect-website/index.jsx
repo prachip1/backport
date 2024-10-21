@@ -1,30 +1,54 @@
 import React, { useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '@clerk/clerk-react';
+import axios from 'axios';
 
 export default function ConnectWebsite() {
-  const [linkData, setLinkData] = useState(""); // State for website link
-  const [email, setEmail] = useState(""); // State for email input
+  const { user } = useUser();
+  const [website, setWebsite]= useState('');
+  const [userEmail,setUserEmail] = useState('');
+  const [apiKey, setApiKey] = useState('');
+  const [error, setError] = useState('');
+
 
   const navigate = useNavigate();
 
-  const addingWeb = (e) => {
+  const addingWeb = async(e) => {
     e.preventDefault(); // Prevent default form behavior
-
-    // Validate both linkData and email inputs
-    if (!linkData) {
-      toast.error("Please enter a valid website link");
+    setError('');
+    setApiKey(''); // Reset the API key
+    if(!website){
+      setError('Pleasss');
       return;
     }
 
-    if (!email) {
-      toast.error("Please enter a valid email address");
-      return;
-    }
+    try {
+      const response = await axios.post('http://localhost:5000/api/generate-api-key', {
+        clerkUserId: user.id,
+        website
+      });
 
+      console.log('API response:', response.data); // Log the API response for debugging
+
+      if (response.data.apiKey) {
+      setApiKey(response.data.apiKey); // Set the API key in the state
+      toast.success('Successfully submitted!');
+
+      // Navigate after a short delay to ensure the API key is generated
+      setTimeout(() => {
+        navigate('/add-contents');
+      }, 1000);
+    } else {
+      setError('Failed to generate API key. Please try again.');
+    }
+    } catch (error) {
+      console.error('Error connecting website:', error);
+      setError('Failed to connect website. Please try again.');
+    }
     // Log the data for debugging
-    console.log("Website link:", linkData);
-    console.log("Email:", email);
+  //  console.log("Website link:", linkData);
+   // console.log("Email:", email);
 
     // Show a success toast
     toast.success('Successfully submitted!');
@@ -33,8 +57,8 @@ export default function ConnectWebsite() {
     navigate('/add-contents');
 
     // Reset the input fields
-    setLinkData("");
-    setEmail("");
+   // setLinkData("");
+    //setEmail("");
   };
 
   return (
@@ -47,17 +71,18 @@ export default function ConnectWebsite() {
         <form className='flex flex-col font-mono gap-8' onSubmit={addingWeb}>
           {/* Website link input */}
           <input
-            onChange={(e) => setLinkData(e.target.value)}
-            value={linkData}
-            type='text'
+            onChange={(e) => setWebsite(e.target.value)}
+            value={website}
+            type='url'
             placeholder='http://www.abc.com'
             className='bg-indigo-200 border-0 w-full rounded-sm py-4 px-2'
+            required
           />
           
           {/* Email input */}
           <input
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
+            onChange={(e) => setUserEmail(e.target.value)}
+            value={userEmail}
             type='email'
             placeholder='Please enter your email id'
             className='bg-indigo-200 border-0 w-full rounded-sm py-4 px-2'
@@ -71,6 +96,14 @@ export default function ConnectWebsite() {
           </button>
         </form>
       </div>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {apiKey && (
+        <div>
+          <h2>Your API Key</h2>
+          <p>{apiKey}</p>
+          <p>Use this API key to make requests to your portfolio CMS.</p>
+        </div>
+      )}
     </div>
   );
 }

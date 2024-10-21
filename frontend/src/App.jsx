@@ -8,6 +8,8 @@ import Home from './Home';
 import { Toaster } from 'react-hot-toast';
 import AddProjects from './add-contents/add-projects';
 import AddTools from './add-contents/add-tools';
+import YourApiKeys from './your-api-keys';
+import Authenticate from './autheticate';
 
 function App() {
   const { isSignedIn } = useAuth(); // Get the sign-in status from Clerk
@@ -17,29 +19,25 @@ function App() {
   useEffect(() => {
     // Only redirect to /connect-website if the user is signed in AND currently on the root path or home page
     if (isSignedIn && location.pathname === '/') {
-      navigate('/connect-website');
+      navigate('/');
     }
   }, [isSignedIn, navigate, location.pathname]); // Check the path every time it changes
 
   return (
-    <div className='flex flex-col justify-center items-center w-full'>
+    <div className='flex flex-col justify-center items-center '>
       
       <Toaster />
-      <header>
-        <SignedOut>
-          <SignInButton />
-        </SignedOut>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
-      </header>
+   <Authenticate />
 
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/authenticate" element={<Authenticate />} />
+        
         <Route path="/connect-website" element={<ConnectWebsite />} />
         <Route path="/add-contents" element={<AddContents />} />
         <Route path="/add-projects" element={<AddProjects />} />
         <Route path="/add-tools" element={<AddTools />} />
+        <Route path='/your-api-keys' element={<YourApiKeys />} />
       </Routes>
     </div>
   );
