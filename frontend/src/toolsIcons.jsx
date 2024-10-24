@@ -1,7 +1,10 @@
 // toolsIcons.js (Example file containing some icons)
 import { FaReact, FaNodeJs, FaHtml5, FaCss3Alt, FaPython, FaGit, FaFigma } from 'react-icons/fa';
-import { SiJavascript, SiTypescript, SiAdobeXd } from 'react-icons/si';
 
+//import { SiJavascript, SiTypescript, SiAdobeXd } from 'react-icons/si';
+import { RiJavascriptFill } from "react-icons/ri";
+import { BiLogoTypescript } from "react-icons/bi";
+import { SiShadcnui } from "react-icons/si";
 import { RiNextjsLine } from "react-icons/ri";
 import { TbBrandMongodb } from "react-icons/tb";
 import { RiFirebaseLine } from "react-icons/ri";
@@ -15,13 +18,15 @@ import { SiDaisyui } from "react-icons/si";
 export const toolIcons = [
     { name: 'React', icon: <FaReact />, category: 'Programming Language' },
   { name: 'Node.js', icon: <FaNodeJs />, category: 'Programming Language' },
-  { name: 'JavaScript', icon: <SiJavascript />, category: 'Programming Language' },
-  { name: 'TypeScript', icon: <SiTypescript />, category: 'Programming Language' },
+ { name: 'JavaScript', icon: <RiJavascriptFill />, category: 'Programming Language' },
+  { name: 'TypeScript', icon: <BiLogoTypescript />, category: 'Programming Language' },
   { name: 'HTML5', icon: <FaHtml5 />, category: 'Programming Language' },
   { name: 'CSS3', icon: <FaCss3Alt />, category: 'Programming Language' },
   { name: 'Python', icon: <FaPython />, category: 'Programming Language' },
   { name: 'Git', icon: <FaGit />, category: 'Tool' },
   { name: 'Figma', icon: <FaFigma />, category: 'Design Tool' },
-  { name: 'Adobe XD', icon: <SiAdobeXd />, category: 'Design Tool' },
+ // { name: 'Adobe XD', icon: <SiAdobeXd />, category: 'Design Tool' },
+  { name: 'DaisyUI', icon:<SiDaisyui />, category: 'CSS'},
+  { name: 'ShadCN', icon:<SiShadcnui />, category: 'CSS'},
   
 ];

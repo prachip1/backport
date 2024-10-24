@@ -1,6 +1,7 @@
 const express = require('express');
 const crypto = require('crypto');
 const User = require('../models/User');
+const Project=require('../models/Project');
 const router = express.Router();
 const authenticateToken=require('../middlewares/authMiddleware')
 // Generate API key
@@ -82,5 +83,46 @@ router.get('/verify-api-key', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+//adding projects
+
+// Route to add a new project
+router.post('/addproject', async (req, res) => {
+  const { title, tags, desc, images, projlink, clerkUserId } = req.body;
+  //const clerkUserId = req.clerkUserId; // Assuming you have a middleware that sets req.clerkUserId
+
+  try {
+    const newProject = new Project({
+      title,
+      tags,
+      desc,
+      images,
+      projlink,
+      clerkUserId  // Save the clerkUserId with the project
+    });
+
+    await newProject.save();
+    res.status(201).json({ message: 'Project added successfully' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to add project' });
+  }
+});
+
+
+
+// Route to get projects
+router.get('/showprojects', async (req, res) => {
+  const { clerkUserId } = req.query; // Get clerkUserId from query params
+
+  try {
+    const projects = await Project.find({ clerkUserId }); // Find projects that belong to the user
+    res.json(projects);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch projects' });
+  }
+});
+
+
 
 module.exports = router;

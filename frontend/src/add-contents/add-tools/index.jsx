@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { toolIcons } from '@/toolIcons';
+import { toolIcons } from '@/toolsIcons';
 
 export default function AddTools() {
   const [searchTerm, setSearchTerm] = useState('');
