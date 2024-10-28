@@ -2,6 +2,7 @@ const express = require('express');
 const crypto = require('crypto');
 const User = require('../models/User');
 const Project=require('../models/Project');
+const Tool=require('../models/Tool');
 const router = express.Router();
 const authenticateToken=require('../middlewares/authMiddleware')
 // Generate API key
@@ -124,5 +125,30 @@ router.get('/showprojects', async (req, res) => {
 });
 
 
+// Route to add a new tools
+router.post('/addtool', async (req, res) => {
+  const { tools } = req.body; // Array of tools
+
+  try {
+    const addedTools = await Tool.insertMany(tools);
+    res.status(200).json({ success: true, addedTools });
+  } catch (error) {
+    console.error('Error saving tools:', error);
+    res.status(500).json({ success: false, message: 'Error adding tools' });
+  }
+});
+
+
+router.get('/gettools', async (req, res) => {
+  const { clerkUserId } = req.query; // Get clerkUserId from query parameter
+
+  try {
+    const tools = await Tool.find({ clerkUserId }); // Fetch tools for this user
+    res.json(tools);
+  } catch (error) {
+    console.error('Error fetching tools:', error);
+    res.status(500).json({ message: 'Failed to fetch tools.' });
+  }
+});
 
 module.exports = router;

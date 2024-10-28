@@ -14,6 +14,8 @@ import { IoLogoVercel } from "react-icons/io5";
 import { SiNetlify } from "react-icons/si";
 import { DiHeroku } from "react-icons/di";
 import { SiDaisyui } from "react-icons/si";
+import { VercelLogoIcon } from '@radix-ui/react-icons';
+
 
 export const toolIcons = [
     { name: 'React', icon: <FaReact />, category: 'Programming Language' },
@@ -28,5 +30,13 @@ export const toolIcons = [
  // { name: 'Adobe XD', icon: <SiAdobeXd />, category: 'Design Tool' },
   { name: 'DaisyUI', icon:<SiDaisyui />, category: 'CSS'},
   { name: 'ShadCN', icon:<SiShadcnui />, category: 'CSS'},
+  { name: 'NextJS', icon:<RiNextjsLine />, category: 'Programming Language'},
+  { name: 'Tailwind CSS', icon:<RiTailwindCssLine />, category: 'Programming Language'},
+  { name: 'MongoDB', icon:<TbBrandMongodb />,category:'Database'},
+  {name:'Firebase',icon:<RiFirebaseLine />, category:'Database as a service'},
+  {name:'Glide',icon:<SiGlide />, category:'No Code tool'},
+  {name:'Vercel', icon:<IoLogoVercel />, category:'Platform'},
+  {name:'Netlify', icon:<SiNetlify />, category:'Platform'},
+  {name:'Heroku',icon:<DiHeroku />, category:'Platform'}
   
 ];

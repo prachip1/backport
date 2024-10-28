@@ -1,15 +1,41 @@
-import React from 'react'
-import { RiNextjsLine } from "react-icons/ri";
-import { TbBrandMongodb } from "react-icons/tb";
-import { RiFirebaseLine } from "react-icons/ri";
-import { SiGlide } from "react-icons/si";
-import { RiTailwindCssLine } from "react-icons/ri";
-import { IoLogoVercel } from "react-icons/io5";
-import { SiNetlify } from "react-icons/si";
-import { DiHeroku } from "react-icons/di";
-import { SiDaisyui } from "react-icons/si";
-import { FaFigma, FaReact } from "react-icons/fa";
+import React,{useState,useEffect} from 'react'
+import axios from 'axios';
+import { useUser } from '@clerk/clerk-react';
+import { Toaster, toast } from 'react-hot-toast';
+import { toolIcons } from '@/toolsIcons';
+import { useNavigate } from 'react-router-dom';
+
+
 export default function ShowTools() {
+  const [userTools, setUserTools] = useState([]);
+  const { user } = useUser(); // Get the logged-in user
+  const navigate = useNavigate();
+    // Fetch user's tools from the database
+    const fetchUserTools = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/gettools', {
+          params: {
+            clerkUserId: user.id, // Assuming Clerk provides the user ID as user.id
+          },
+        });
+        setUserTools(response.data);
+      } catch (error) {
+        console.error('Error fetching user tools:', error);
+        toast.error('Error fetching tools.');
+      }
+    };
+
+  // Call fetchUserTools on component mount
+  useEffect(() => {
+    if (user) {
+      fetchUserTools();
+    }
+  }, [user]);
+
+  const goUpdate=()=>{
+    navigate('/updates')
+  }
+
   return (
     <div>
            {/*tools i use */}
@@ -17,33 +43,36 @@ export default function ShowTools() {
       
         <h2 className="text-3xl">Tools I use.</h2>
      
-     
+        <Toaster />
        <div className="flex flex-col lg:flex-row justify-center items-center lg:mt-20 gap-8">
-       <div className="flex gap-4">
-       <FaFigma className="w-6 h-6 lg:w-20 lg:h-20" />
-       <FaReact className="w-6 h-6 lg:w-20 lg:h-20" />
-       <RiNextjsLine className="w-6 h-6 lg:w-20 lg:h-20" />  
-       </div>
-        
-       <div className="flex gap-4">
-       <RiTailwindCssLine className="w-6 h-6 lg:w-20 lg:h-20"  />
-       <TbBrandMongodb className="w-6 h-6 lg:w-20 lg:h-20" />
-       <RiFirebaseLine className="w-6 h-6 lg:w-20 lg:h-20" />
-       </div>
-
-       <div className="flex gap-4">
-       <SiGlide className="w-6 h-6 lg:w-20 lg:h-20" />
-       <IoLogoVercel className="w-6 h-6 lg:w-20 lg:h-20"/>
-       <SiNetlify className="w-6 h-6 lg:w-20 lg:h-20"/>
-       </div>
-   
-       <div className="flex gap-4">
-       <DiHeroku className="w-6 h-6 lg:w-20 lg:h-20"/>
-       <SiDaisyui className="w-12 h-12 lg:w-20 lg:h-20" />
+  
+       {userTools.length > 0 ? (
+        <div className="flex flex-wrap gap-4">
+          {userTools.map((tool, index) => {
+            // Find the corresponding icon based on tool name
+            const toolData = toolIcons.find((icon) => icon.name === tool.toolname);
+            
+            return (
+              <div
+                key={index}
+                className="p-4 rounded-lg text-center flex flex-col items-center justify-center w-32"
+              >
+                <div className="text-8xl">
+                  {toolData ? toolData.icon : null}
+                </div>
+                <p className="mt-2 text-base">{tool.toolname}</p>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <p>No tools added yet.</p>
+      )}
+       {user && <button className='bg-gray-200 p-2 rounded border-2 border-gray-300' onClick={goUpdate}>Update</button> }
        </div>
      
-       </div>
       </div>
+      
     </div>
   )
 }

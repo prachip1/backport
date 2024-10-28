@@ -1,38 +1,66 @@
 import React, { useState } from 'react';
+import { storage } from '@/config/firebaseConfig';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import axios from 'axios';
 import { Toaster, toast } from 'react-hot-toast';
-import { useUser } from '@clerk/clerk-react';  // Import useUser from Clerk
+import { v4 as uuidv4 } from 'uuid'; // To generate unique names for the images
+import { useUser } from '@clerk/clerk-react'; // Import Clerk's useUser to get user information
 
 export default function AddProjects() {
-  const { user } = useUser();  // Get the authenticated user
   const [title, setTitle] = useState('');
   const [tags, setTags] = useState('');
   const [desc, setDesc] = useState('');
   const [projlink, setProjLink] = useState('');
   const [images, setImages] = useState([]);
+  const [uploading, setUploading] = useState(false);
+  const { user } = useUser(); // Use Clerk's hook to get the logged-in user
 
+  // Function to handle image uploads to Firebase
   const handleImageChange = (e) => {
     const files = e.target.files;
     const imageArray = [];
     for (let i = 0; i < files.length; i++) {
-      imageArray.push(URL.createObjectURL(files[i])); // Create preview URLs
+      const file = files[i];
+      const storageRef = ref(storage, `projects/${uuidv4()}`); // Unique reference for each image
+
+      // Upload each image
+      uploadBytes(storageRef, file)
+        .then((snapshot) => {
+          getDownloadURL(snapshot.ref).then((url) => {
+            imageArray.push(url); // Store the download URL in the array
+            setImages((prev) => [...prev, url]); // Update the images state with Firebase URLs
+          });
+        })
+        .catch((error) => {
+          console.error('Error uploading image:', error);
+          toast.error('Error uploading image.');
+        });
     }
-    setImages(imageArray);
   };
 
   const uploadProj = async (e) => {
     e.preventDefault();
 
+    if (uploading) {
+      return; // Prevent duplicate submissions
+    }
+
+    if (!user) {
+      toast.error('User not logged in!');
+      return;
+    }
+
     const projectData = {
       title,
       tags,
       desc,
-      images, // This would be an array of image URLs for now
+      images, // Firebase Storage URLs
       projlink,
-      clerkUserId: user.id,  // Send the user's Clerk ID along with the project data
+      clerkUserId: user.id, // Include clerkUserId in project data
     };
 
     try {
+      setUploading(true);
       const response = await axios.post('http://localhost:5000/api/addproject', projectData);
       console.log('Project added:', response.data);
       toast.success('Project Data Submitted');
@@ -43,7 +71,9 @@ export default function AddProjects() {
       setProjLink('');
     } catch (error) {
       console.error('Error adding project:', error);
-      toast.error('Failed to submit project');
+      toast.error('Error adding project.');
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -95,7 +125,6 @@ export default function AddProjects() {
             </div>
           )}
 
-          {/* Project link */}
           <input
             type='url'
             placeholder='Add Project Link'
@@ -104,7 +133,9 @@ export default function AddProjects() {
             className='p-2 border border-indigo-900 rounded'
           />
 
-          <button className='bg-indigo-900 text-gray-200 p-4'>Add project</button>
+          <button className='bg-indigo-900 text-gray-200 p-4' disabled={uploading}>
+            {uploading ? 'Uploading...' : 'Add project'}
+          </button>
         </form>
       </div>
     </div>

@@ -10,6 +10,7 @@ import AddProjects from './add-contents/add-projects';
 import AddTools from './add-contents/add-tools';
 import YourApiKeys from './your-api-keys';
 import Authenticate from './autheticate';
+import UpdateData from './updates';
 
 function App() {
   const { isSignedIn } = useAuth(); // Get the sign-in status from Clerk
@@ -38,6 +39,7 @@ function App() {
         <Route path="/add-projects" element={<AddProjects />} />
         <Route path="/add-tools" element={<AddTools />} />
         <Route path='/your-api-keys' element={<YourApiKeys />} />
+        <Route path='/updates' element={<UpdateData />} />
       </Routes>
     </div>
   );

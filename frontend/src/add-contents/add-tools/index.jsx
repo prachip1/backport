@@ -1,23 +1,50 @@
 import React, { useState } from 'react';
 import { toolIcons } from '@/toolsIcons';
+import { useUser } from '@clerk/clerk-react';
+import axios from 'axios';
+import { Toaster, toast } from 'react-hot-toast';
 
 export default function AddTools() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTools, setSelectedTools] = useState([]);
+  const { user } = useUser();
 
   // Filter tools based on search term
   const filteredIcons = toolIcons.filter((tool) =>
     tool.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Handle adding a tool
+  // Handle adding a tool to the selectedTools array
   const addTool = (tool) => {
-    setSelectedTools((prev) => [...prev, tool]);
+    if (!selectedTools.find((t) => t.name === tool.name)) {
+      setSelectedTools((prev) => [...prev, tool]);
+    }
+  };
+
+  // Function to send selected tools to the backend
+  const addingTools = async () => {
+    const toolsData = selectedTools.map((tool) => ({
+      toolname: tool.name,
+      clerkUserId: user.id,
+    }));
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/addtool', {
+        tools: toolsData,
+      });
+      console.log('Tools added:', response.data);
+      toast.success('Tools added successfully');
+      setSelectedTools([]); // Clear selected tools after successful upload
+    } catch (error) {
+      console.error('Error adding tools:', error);
+      toast.error('Error adding tools.');
+    }
   };
 
   return (
     <div className="p-8">
       <h2 className="text-xl font-bold mb-6">Add Your Tools</h2>
+      <Toaster />
 
       {/* Search Bar */}
       <input
@@ -28,7 +55,7 @@ export default function AddTools() {
         onChange={(e) => setSearchTerm(e.target.value)}
       />
 
-      {/* Render Filtered Icons with Flexbox */}
+      {/* Render Filtered Icons */}
       <div className="flex flex-wrap gap-4 mb-8">
         {filteredIcons.map((tool, index) => (
           <div
@@ -42,7 +69,7 @@ export default function AddTools() {
         ))}
       </div>
 
-      {/* Display Selected Tools with Flexbox */}
+      {/* Display Selected Tools */}
       {selectedTools.length > 0 && (
         <div className="mt-8">
           <h3 className="text-lg font-bold mb-4">Selected Tools:</h3>
@@ -56,6 +83,10 @@ export default function AddTools() {
           </div>
         </div>
       )}
+
+      <button className="bg-indigo-900 text-white p-2 rounded-md" onClick={addingTools}>
+        Add them
+      </button>
     </div>
   );
 }
