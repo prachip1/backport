@@ -151,4 +151,83 @@ router.get('/gettools', async (req, res) => {
   }
 });
 
+
+
+
+router.delete('/deletetool', async (req, res) => {
+  const { toolId } = req.body; // Get tool ID from the request body
+
+  try {
+    // Find and delete the tool by ID
+    const deletedTool = await Tool.findByIdAndDelete(toolId);
+
+    if (!deletedTool) {
+      return res.status(404).json({ message: 'Tool not found' });
+    }
+
+    res.status(200).json({ message: 'Tool deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting tool:', error);
+    res.status(500).json({ message: 'Error deleting tool' });
+  }
+});
+
+
+// Delete project by ID
+router.delete('/deleteproject', async (req, res) => {
+  const { projectId } = req.body; // Get project ID from the request body
+
+  try {
+    // Find and delete the project by ID
+    const deletedProject = await Project.findByIdAndDelete(projectId);
+
+    if (!deletedProject) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+
+    res.status(200).json({ message: 'Project deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting project:', error);
+    res.status(500).json({ message: 'Error deleting project' });
+  }
+});
+// Route to get a single project by ID
+router.get('/showprojects/:projectId', async (req, res) => {
+  try {
+    const { projectId } = req.params;
+    const project = await Project.findById(projectId); // Fetch project by ID
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+    res.json(project);
+  } catch (error) {
+    console.error('Error fetching project:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+//update project
+
+router.put('/showprojects/:projectId', async (req, res) => {
+  try {
+    const { projectId } = req.params;
+    const updatedData = req.body;
+
+    const project = await Project.findByIdAndUpdate(projectId, updatedData, {
+      new: true, // Return the updated project
+    });
+
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+
+    res.json({ message: 'Project updated successfully', project });
+  } catch (error) {
+    console.error('Error updating project:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+
 module.exports = router;

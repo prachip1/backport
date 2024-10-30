@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FaChevronLeft,FaChevronRight } from "react-icons/fa";
 
 export default function ProjectCarousel({ images = [], title }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -24,7 +25,7 @@ export default function ProjectCarousel({ images = [], title }) {
         <img
           src={images[currentImageIndex]}
           alt={`Project ${title}`}
-          className="h-48 w-full object-cover rounded"
+          className="h-72 w-full object-cover rounded"
         />
       )}
 
@@ -32,9 +33,9 @@ export default function ProjectCarousel({ images = [], title }) {
       {images.length > 1 && (
         <button
           onClick={goToPreviousImage}
-          className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full"
+          className="absolute top-36 left-2 transform -translate-y-1/2 bg-gray-400 opacity-45 text-gray-800 p-4 rounded-full w-10 h-10 border border-gray-200 flex justify-center items-center hover:opacity-100"
         >
-          &#8592;
+        <FaChevronLeft className='text-xl'  />
         </button>
       )}
 
@@ -42,9 +43,9 @@ export default function ProjectCarousel({ images = [], title }) {
       {images.length > 1 && (
         <button
           onClick={goToNextImage}
-          className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full"
+          className="absolute top-36 right-2 transform -translate-y-1/2 bg-gray-400 opacity-45 text-gray-800 p-4 rounded-full w-10 h-10 border border-gray-200 flex justify-center items-center hover:opacity-100"
         >
-          &#8594;
+       <FaChevronRight />
         </button>
       )}
     </div>
