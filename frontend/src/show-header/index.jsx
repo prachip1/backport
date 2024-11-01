@@ -7,14 +7,14 @@ export default function ShowHeader() {
 
   return (
     <div>
-       <div className="flex flex-col justify-center items-center gap-4">
+       <div className="flex flex-col justify-center items-center gap-8">
        
           <div className="w-24 rounded-full">
             <img src="/prachishead.png" className='w-24 rounded-full' alt="Profile" />
           </div>
       
-        <h2 className="text-lg font-semibold cursor-pointer">Prachi</h2>
-        <p className="text-gray-900 font-regular text-xl text-center">I build web app for individuals who wants their ideas not in their head <br></br>but out in the market.</p>
+        <h2 className="text-lg font-semibold cursor-pointer">Prachi Priyadarshini</h2>
+        <p className="text-gray-900 font-regular text-lg text-center">I build web app for individuals who wants their ideas not in their head <br></br>but out in the market.</p>
         <div className="flex gap-4">
          <SocialIcon url="https://www.linkedin.com/in/prachi-priyadarshini/" bgColor="black" style={{ height: 30, width: 30 }} />
          <SocialIcon url="https://github.com/prachip1" bgColor="black"  style={{ height: 30, width: 30 }}/>

@@ -15,12 +15,12 @@ const addContent=()=>{
 
 
   return (
-    <div className='flex justify-between gap-8'>
+    <div className='flex justify-between w-full'>
 
       
-      <div className='flex justify-center items-center gap-4'>
-        <button onClick={()=>navigate('/')}>Prachi</button>
-        {isSignedIn&&<button onClick={addContent}>Add Contents</button>}
+      <div className='flex gap-8'>
+        <button onClick={()=>navigate('/')} className='font-semibold'>PRACHI.</button>
+        {isSignedIn&&<button onClick={addContent} className='bg-gray-600 p-2 rounded text-gray-200'>Add Contents</button>}
         
       </div>
       <div>

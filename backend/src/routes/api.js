@@ -116,7 +116,7 @@ router.get('/showprojects', async (req, res) => {
   const { clerkUserId } = req.query; // Get clerkUserId from query params
 
   try {
-    const projects = await Project.find({ clerkUserId }); // Find projects that belong to the user
+    const projects = await Project.find(); // Find projects that belong to the user
     res.json(projects);
   } catch (err) {
     console.error(err);
@@ -143,7 +143,7 @@ router.get('/gettools', async (req, res) => {
   const { clerkUserId } = req.query; // Get clerkUserId from query parameter
 
   try {
-    const tools = await Tool.find({ clerkUserId }); // Fetch tools for this user
+    const tools = await Tool.find(); // Fetch tools for this user
     res.json(tools);
   } catch (error) {
     console.error('Error fetching tools:', error);

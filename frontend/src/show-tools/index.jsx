@@ -14,9 +14,7 @@ export default function ShowTools() {
     const fetchUserTools = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/gettools', {
-          params: {
-            clerkUserId: user.id, // Assuming Clerk provides the user ID as user.id
-          },
+         
         });
         setUserTools(response.data);
       } catch (error) {

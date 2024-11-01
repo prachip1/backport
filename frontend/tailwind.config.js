@@ -1,5 +1,5 @@
-/** @type {import('tailwindcss').Config} */
-export default {
+
+module.exports = {
     darkMode: ["class"],
     content: [
     "./index.html",
@@ -55,7 +55,9 @@ export default {
   			}
   		}
   	}
+  },daisyui: {
+    themes: ["black"],
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [[require("tailwindcss-animate")], [require('daisyui')]]
 }
 

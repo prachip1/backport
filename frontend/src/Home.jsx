@@ -5,6 +5,8 @@ import ShowHeader from './show-header';
 import ShowProjects from './show-projects';
 import ShowTools from './show-tools';
 import AddContents from './add-contents';
+import Authenticate from './autheticate';
+import Footer from './footer';
 
 
 export default function Home() {
@@ -13,15 +15,17 @@ export default function Home() {
   
   
   return (
-    <div className='flex flex-col justify-center items-center mt-14 gap-28'>
+    <div data-theme="black" className='flex flex-col justify-center items-center gap-20'>
      {/*All components will be displayed here*/}
-    
+  <Authenticate />
      {/*header*/}
      <ShowHeader />
      {/*projectes*/}
      <ShowProjects />
       {/*tools i use */}
       <ShowTools />
+
+      <Footer />
     </div>
   )
 }

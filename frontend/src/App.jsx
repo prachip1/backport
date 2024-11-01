@@ -14,6 +14,7 @@ import UpdateData from './updates';
 import ShowProjects from './show-projects';
 import EditProject from './show-projects/EditProject';
 import ProjectCarousel from './show-projects/ProjectCarousel';
+import Footer from './footer';
 
 function App() {
   const { isSignedIn } = useAuth(); // Get the sign-in status from Clerk
@@ -28,10 +29,10 @@ function App() {
   }, [isSignedIn, navigate, location.pathname]); // Check the path every time it changes
 
   return (
-    <div className='flex flex-col justify-center items-center '>
+    <div className=''>
       
       <Toaster />
-   <Authenticate />
+  
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -46,6 +47,7 @@ function App() {
         <Route path="/add-tools" element={<AddTools />} />
         <Route path='/your-api-keys' element={<YourApiKeys />} />
         <Route path='/updates' element={<UpdateData />} />
+        <Route path='/footer' element={<Footer />} />
       </Routes>
     </div>
   );
