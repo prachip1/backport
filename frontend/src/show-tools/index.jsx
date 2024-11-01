@@ -27,9 +27,9 @@ export default function ShowTools() {
 
   // Call fetchUserTools on component mount
   useEffect(() => {
-    if (user) {
+    
       fetchUserTools();
-    }
+    
   }, [user]);
 
   const goUpdate=()=>{

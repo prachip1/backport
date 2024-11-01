@@ -26,9 +26,9 @@ export default function ShowProjects() {
       }
     };
     
-    if (user) {
+    
       getProjects();
-    }
+    
   }, [user]);
 
   const openDeleteModal = (projectId) => {

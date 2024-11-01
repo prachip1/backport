@@ -19,7 +19,7 @@ const addContent=()=>{
 
       
       <div className='flex justify-center items-center gap-4'>
-        <h2>Prachi</h2>
+        <button onClick={()=>navigate('/')}>Prachi</button>
         {isSignedIn&&<button onClick={addContent}>Add Contents</button>}
         
       </div>
