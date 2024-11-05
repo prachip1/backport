@@ -19,7 +19,7 @@ export default function ProjectCarousel({ images = [], title }) {
   };
 
   return (
-    <div className="relative w-full h-48">
+    <div className="relative w-full h-48 mt-2">
       {/* Image Display */}
       {images.length > 0 && (
         <img

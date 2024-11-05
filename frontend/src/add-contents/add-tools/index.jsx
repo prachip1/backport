@@ -3,6 +3,7 @@ import { toolIcons } from '@/toolsIcons';
 import { useUser } from '@clerk/clerk-react';
 import axios from 'axios';
 import { Toaster, toast } from 'react-hot-toast';
+import ShowTools from '@/show-tools';
 
 export default function AddTools() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -87,6 +88,8 @@ export default function AddTools() {
       <button className="bg-indigo-900 text-white p-2 rounded-md" onClick={addingTools}>
         Add them
       </button>
+
+      <ShowTools />
     </div>
   );
 }

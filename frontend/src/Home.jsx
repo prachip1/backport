@@ -15,7 +15,7 @@ export default function Home() {
   
   
   return (
-    <div data-theme="black" className='flex flex-col justify-center items-center gap-20'>
+    <div data-theme="black" className='font-display flex flex-col justify-center items-center gap-20'>
      {/*All components will be displayed here*/}
   <Authenticate />
      {/*header*/}

@@ -15,7 +15,7 @@ const addContent=()=>{
 
 
   return (
-    <div className='flex justify-between w-full'>
+    <div className='flex justify-between w-full p-8'>
 
       
       <div className='flex gap-8'>

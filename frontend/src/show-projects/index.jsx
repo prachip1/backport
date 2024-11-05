@@ -71,16 +71,16 @@ export default function ShowProjects() {
               >
                 {/* Edit and Delete Buttons positioned in top-right corner, only shown if user is logged in */}
                 {user && (
-                  <div className='absolute top-4 right-4 flex gap-2'>
+                  <div className='absolute top-2 right-4 flex gap-2'>
                     <p 
                       onClick={() => editData(project._id)} 
-                      className='cursor-pointer p-1 rounded text-gray-600 hover:p-2 hover:rounded hover:bg-gray-400'
+                      className='cursor-pointer p-1 text-slate-500 text-sm font-semibold  hover:text-slate-800'
                     >
                       Edit
                     </p>
                     <p 
                       onClick={() => openDeleteModal(project._id)} 
-                      className='cursor-pointer p-1 text-red-600 font-semibold hover:p-2 hover:rounded hover:bg-red-300'
+                      className='cursor-pointer p-1  text-red-600 text-sm font-semibold  hover:text-red-400'
                     >
                       Delete
                     </p>
