@@ -30,7 +30,7 @@ export default function AddTools() {
     }));
 
     try {
-      const response = await axios.post('http://localhost:5000/api/addtool', {
+      const response = await axios.post('https://backport-backend.vercel.app/api/addtool', {
         tools: toolsData,
       });
       console.log('Tools added:', response.data);

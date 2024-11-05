@@ -13,7 +13,7 @@ export default function ShowTools() {
   // Fetch user's tools from the database
   const fetchUserTools = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/gettools');
+      const response = await axios.get('https://backport-backend.vercel.app/api/gettools');
       setUserTools(response.data);
     } catch (error) {
       console.error('Error fetching user tools:', error);
@@ -28,7 +28,7 @@ export default function ShowTools() {
 
   const goDelete = async (toolId) => {
     try {
-      const res = await axios.delete('http://localhost:5000/api/deletetool', {
+      const res = await axios.delete('https://backport-backend.vercel.app/api/deletetool', {
         data: { toolId },
       });
       toast.success(res.data.message);

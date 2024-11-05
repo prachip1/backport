@@ -13,7 +13,7 @@ export default function EditProject() {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/showprojects/${projectId}`);
+        const response = await axios.get(`https://backport-backend.vercel.app/api/showprojects/${projectId}`);
         setProject(response.data);
       } catch (error) {
         console.error('Error fetching project:', error);
@@ -25,7 +25,7 @@ export default function EditProject() {
 
   const handleUpdate = async () => {
     try {
-      const response = await axios.put(`http://localhost:5000/api/showprojects/${projectId}`, project);
+      const response = await axios.put(`https://backport-backend.vercel.app/api/showprojects/${projectId}`, project);
       alert(response.data.message);
       navigate('/show-projects'); // Redirect back to the projects page
     } catch (error) {

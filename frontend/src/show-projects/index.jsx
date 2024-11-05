@@ -17,7 +17,7 @@ export default function ShowProjects() {
   useEffect(() => {
     const getProjects = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/showprojects');
+        const response = await axios.get('https://backport-backend.vercel.app/api/showprojects');
         setProjdata(response.data);
       } catch (error) {
         console.error("Error fetching projects", error);
@@ -39,7 +39,7 @@ export default function ShowProjects() {
 
   const confirmDelete = async () => {
     try {
-      const response = await axios.delete('http://localhost:5000/api/deleteproject', {
+      const response = await axios.delete('https://backport-backend.vercel.app/api/deleteproject', {
         data: { projectId: projectToDelete },
       });
       alert(response.data.message);
