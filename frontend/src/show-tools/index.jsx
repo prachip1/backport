@@ -41,18 +41,18 @@ export default function ShowTools() {
   };
 
   return (
-    <div>
+    <div className='flex w-screen lg:w-full justify-center items-center'>
       <div className="flex flex-col justify-center items-center gap-8 mb-14">
         <h2 className="text-3xl">Tools I use.</h2>
         <Toaster />
         <div className="flex flex-col lg:flex-row justify-center items-center lg:mt-20 gap-8">
           {userTools.length > 0 ? (
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap justify-center items-center gap-4">
               {userTools.map((tool) => {
                 const toolData = toolIcons.find((icon) => icon.name === tool.toolname);
 
                 return (
-                  <div key={tool._id} className="p-4 rounded-lg text-center flex flex-col items-center justify-center w-32">
+                  <div key={tool._id} className="flex flex-col items-center justify-center p-4 rounded-lg text-center  w-32">
                     {user && (
                       <p
                         className="text-sm font-semibold text-red-600 hover:text-red-400 cursor-pointer"
@@ -61,10 +61,10 @@ export default function ShowTools() {
                         Delete
                       </p>
                     )}
-                    <div className="text-8xl">
+                    <div className="text-xl lg:text-6xl">
                       {toolData ? toolData.icon : null}
                     </div>
-                    <p className="mt-2 text-base">{tool.toolname}</p>
+                    <p className="mt-2 text-sm lg:text-base">{tool.toolname}</p>
                   </div>
                 );
               })}
