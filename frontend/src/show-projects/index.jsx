@@ -57,18 +57,19 @@ export default function ShowProjects() {
   };
 
   return (
-    <div>
+    <div className='flex w-full justify-center items-center'>
       <div className="flex flex-col justify-center items-center gap-8">
         <div className="flex flex-col lg:flex-row justify-center items-center">
           <h2 className="text-3xl">My Recent Works.</h2>
         </div>
-        <div className="flex flex-col lg:flex-row justify-center items-center lg:justify-normal gap-6 p-8">
+        <div className="flex flex-wrap justify-center items-center gap-8">
           {projdata.length > 0 ? (
             projdata.map((project, index) => (
               <div 
                 key={index} 
-                className="relative flex flex-col justify-center items-center lg:justify-normal lg:items-start gap-6 w-screen lg:w-full bg-base-300 p-4 lg:p-8 rounded-md shadow-xl border-2 border-bg-gray-900"
-              >
+                className="relative flex flex-col justify-center items-center 
+                lg:justify-normal lg:items-start gap-6 w-screen lg:w-[48%] bg-base-300 p-18 lg:p-8 
+                rounded-md shadow-xl border-2 border-bg-gray-900">
                 {/* Edit and Delete Buttons positioned in top-right corner, only shown if user is logged in */}
                 {user && (
                   <div className='absolute top-2 right-4 flex gap-2'>
@@ -93,14 +94,14 @@ export default function ShowProjects() {
                 )}
 
                 {/* Project Details */}
-                <div className="flex flex-col gap-2 w-full pl-2 pr-2 mt-24">
+                <div className="flex flex-col gap-2 w-full mt-18 h-full">
                   <h3 className="text-xl font-bold">{project.title}</h3>
                   <p className="text-sm font-light bg-slate-900 text-slate-400 p-1 rounded-lg">{project.tags}</p>
                   <p className='text-lg'>{project.desc}</p>
                 </div>
 
                 {/* Visit Website Button */}
-                <div className="flex gap-8 mt-4 pl-2 pr-2">
+                <div className="flex justify-center items-center gap-8 mt-2 mb-8 lg:mb-0">
                   <a href={project.projlink} target="_blank" rel="noopener noreferrer">
                     <button className="btn bg-gray-800 text-gray-200 rounded tracking-tighter p-2 hover:bg-slate-900 hover:text-slate-200">
                       Visit Website
