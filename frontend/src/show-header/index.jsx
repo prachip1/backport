@@ -19,6 +19,8 @@ export default function ShowHeader() {
          <SocialIcon url="https://www.linkedin.com/in/prachi-priyadarshini/" bgColor="black" style={{ height: 30, width: 30 }} />
          <SocialIcon url="https://github.com/prachip1" bgColor="black"  style={{ height: 30, width: 30 }}/>
          <SocialIcon url="mailto:prachiscoding@gmail.com" bgColor="black"  style={{ height: 30, width: 30 }} />
+         <SocialIcon url="https://www.threads.net/@justgetajobprachi" bgColor="black"  style={{ height: 30, width: 30 }}/>
+         <SocialIcon url="https://www.instagram.com/justgetajobprachi/" bgColor="black"  style={{ height: 30, width: 30 }}/>
           <SocialIcon url="https://x.com/getajobprachi" bgColor="black"  style={{ height: 30, width: 30 }}/>
         </div>
         
