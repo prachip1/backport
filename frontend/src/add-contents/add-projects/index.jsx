@@ -14,6 +14,7 @@ export default function AddProjects() {
   const [images, setImages] = useState([]);
   const [uploading, setUploading] = useState(false);
   const { user } = useUser(); // Use Clerk's hook to get the logged-in user
+  const [thumbnail, setThumbnail] = useState(''); // State for thumbnail
 
   // Function to handle image uploads to Firebase
   const handleImageChange = (e) => {
@@ -29,6 +30,14 @@ export default function AddProjects() {
           getDownloadURL(snapshot.ref).then((url) => {
             imageArray.push(url); // Store the download URL in the array
             setImages((prev) => [...prev, url]); // Update the images state with Firebase URLs
+         
+         
+            // Set the first uploaded image as the thumbnail
+            if (imageArray.length === 1) {
+              setThumbnail(url);
+            }
+         
+         
           });
         })
         .catch((error) => {
@@ -36,6 +45,17 @@ export default function AddProjects() {
           toast.error('Error uploading image.');
         });
     }
+  };
+
+  const handleDeleteImage = (url) => {
+    setImages((prev) => prev.filter((image) => image !== url));
+    if (thumbnail === url) {
+      setThumbnail(''); // Clear thumbnail if the deleted image was the thumbnail
+    }
+  };
+
+  const handleSetThumbnail = (url) => {
+    setThumbnail(url); // Set the clicked image as the thumbnail
   };
 
   const uploadProj = async (e) => {
@@ -56,13 +76,14 @@ export default function AddProjects() {
       desc,
       images, // Firebase Storage URLs
       projlink,
+      thumbnail, // Include thumbnail in project data
       clerkUserId: user.id, // Include clerkUserId in project data
     };
 
     try {
       setUploading(true);
       const response = await axios.post('https://backport-backend.vercel.app/api/addproject', projectData);
-      console.log('Project added:', response.data);
+     // console.log('Project added:', response.data);
       toast.success('Project Data Submitted');
       setTitle('');
       setDesc('');
@@ -70,7 +91,7 @@ export default function AddProjects() {
       setImages([]);
       setProjLink('');
     } catch (error) {
-      console.error('Error adding project:', error);
+      //console.error('Error adding project:', error);
       toast.error('Error adding project.');
     } finally {
       setUploading(false);
@@ -111,16 +132,40 @@ export default function AddProjects() {
             className='p-2 border border-indigo-900 rounded'
           />
 
-          {/* Image Preview Section */}
+          {/* Thumbnail Preview */}
+          {thumbnail && (
+            <div className='mt-4'>
+              <h4>Thumbnail Preview:</h4>
+              <img
+                src={thumbnail}
+                alt='Thumbnail'
+                className='h-24 w-24 object-cover rounded border border-indigo-900'
+              />
+            </div>
+          )}
+
+        {/* Image Preview Section */}
           {images.length > 0 && (
             <div className='flex gap-4 mt-4'>
               {images.map((image, index) => (
-                <img
+                <div
                   key={index}
-                  src={image}
-                  alt={`Preview ${index}`}
-                  className='h-24 w-24 object-cover rounded border border-indigo-900'
-                />
+                  className='relative border-2 rounded'
+                  style={{ borderColor: thumbnail === image ? 'green' : 'red' }} // Highlight thumbnail in green
+                >
+                  <img
+                    src={image}
+                    alt={`Preview ${index}`}
+                    className='h-24 w-24 object-cover rounded cursor-pointer'
+                    onClick={() => handleSetThumbnail(image)} // Set thumbnail on click
+                  />
+                  <button
+                    className='absolute top-0 right-0 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center'
+                    onClick={() => handleDeleteImage(image)} // Delete image on click
+                  >
+                    X
+                  </button>
+                </div>
               ))}
             </div>
           )}
