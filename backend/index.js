@@ -8,7 +8,7 @@ const app = express();
 // Middleware
 // Add CORS options to allow requests from your frontend
 app.use(cors({
-  origin: 'https://prachip.vercel.app', // Allow all origins (for development)
+  origin: '*', // Allow all origins (for development)
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Add other methods if needed
   allowedHeaders: ['Content-Type', 'X-API-Key', 'Authorization'], // Include any other headers used in requests
 }));
