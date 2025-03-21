@@ -30,14 +30,11 @@ export default function AddProjects() {
           getDownloadURL(snapshot.ref).then((url) => {
             imageArray.push(url); // Store the download URL in the array
             setImages((prev) => [...prev, url]); // Update the images state with Firebase URLs
-         
-         
+
             // Set the first uploaded image as the thumbnail
             if (imageArray.length === 1) {
               setThumbnail(url);
             }
-         
-         
           });
         })
         .catch((error) => {
@@ -83,7 +80,7 @@ export default function AddProjects() {
     try {
       setUploading(true);
       const response = await axios.post('https://backport-backend.vercel.app/api/addproject', projectData);
-     // console.log('Project added:', response.data);
+      console.log('Project added:', response.data);
       toast.success('Project Data Submitted');
       setTitle('');
       setDesc('');
@@ -91,7 +88,7 @@ export default function AddProjects() {
       setImages([]);
       setProjLink('');
     } catch (error) {
-      //console.error('Error adding project:', error);
+      console.error('Error adding project:', error);
       toast.error('Error adding project.');
     } finally {
       setUploading(false);
@@ -144,7 +141,7 @@ export default function AddProjects() {
             </div>
           )}
 
-        {/* Image Preview Section */}
+          {/* Image Preview Section */}
           {images.length > 0 && (
             <div className='flex gap-4 mt-4'>
               {images.map((image, index) => (
