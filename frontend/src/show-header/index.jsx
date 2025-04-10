@@ -25,7 +25,7 @@ export default function ShowHeader() {
         </div>
         
         <div className="flex gap-4">
-          <button className="btn bg-gray-900 text-gray-300 px-6 py-2 rounded-md text-base-300 hover:text-white"><a href="mailto:prachiscoding@gmail.com">Hire Me</a></button>
+          <button className="btn bg-gray-900 text-gray-300 px-6 py-2 rounded-md text-base-300 hover:text-white"><a href="https://calendar.app.google/c88iM7FpXWdA43Lu7">Book a call</a></button>
          {/** <button className="btn bg-base-300 hover:bg-base-100"><a href="https://calendly.com/prachiscoding/15min">Book a Call</a></button>*/} 
         </div>
       </div>
