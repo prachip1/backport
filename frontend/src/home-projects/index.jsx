@@ -15,7 +15,7 @@ export default function HomeProjects({ limit }) {
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const response = await axios.get('http://localhost:5002/api/showprojects');
+                const response = await axios.get('https://backport-backend.vercel.app/api/showprojects');
                 setProjects(response.data.slice(0, limit)); // Only take limited projects
             } catch (error) {
                 console.error("Error fetching projects", error);
