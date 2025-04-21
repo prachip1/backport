@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Toaster, toast } from 'react-hot-toast';
 import { v4 as uuidv4 } from 'uuid'; // To generate unique names for the images
 import { useUser } from '@clerk/clerk-react'; // Import Clerk's useUser to get user information
-import { set } from 'mongoose';
+
 
 export default function AddProjects() {
   const [title, setTitle] = useState('');
