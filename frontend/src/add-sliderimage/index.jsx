@@ -48,7 +48,7 @@ export default function AddSliderimage() {
     };
   
     try {
-      const response = await axios.post('http://localhost:5002/api/addsliderimage', data);
+      const response = await axios.post('https://backport-backend.vercel.app/api/addsliderimage', data);
       
       if (response.data.success) {
         toast.success('Slider image added!');

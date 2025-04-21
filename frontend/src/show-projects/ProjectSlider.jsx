@@ -39,7 +39,7 @@ export default function ProjectSlider() {
   useEffect(() => {
     const fetchSliderImages = async () => {
       try {
-        const response = await axios.get('http://localhost:5002/api/getsliderimage');
+        const response = await axios.get('https://backport-backend.vercel.app/api/getsliderimage');
         
         if (response.data.success) {
           setSliders(response.data.sliders);
