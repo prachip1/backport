@@ -5,12 +5,14 @@ import axios from 'axios';
 import { Toaster, toast } from 'react-hot-toast';
 import { v4 as uuidv4 } from 'uuid'; // To generate unique names for the images
 import { useUser } from '@clerk/clerk-react'; // Import Clerk's useUser to get user information
+import { set } from 'mongoose';
 
 export default function AddProjects() {
   const [title, setTitle] = useState('');
   const [tags, setTags] = useState('');
   const [desc, setDesc] = useState('');
   const [projlink, setProjLink] = useState('');
+  const [githublink, setGithubLink] = useState('');
   const [images, setImages] = useState([]);
   const [uploading, setUploading] = useState(false);
   const { user } = useUser(); // Use Clerk's hook to get the logged-in user
@@ -73,13 +75,14 @@ export default function AddProjects() {
       desc,
       images, // Firebase Storage URLs
       projlink,
+      githublink,
       thumbnail, // Include thumbnail in project data
       clerkUserId: user.id, // Include clerkUserId in project data
     };
 
     try {
       setUploading(true);
-      const response = await axios.post('https://backport-backend.vercel.app/api/addproject', projectData);
+      const response = await axios.post('http://localhost:5002/api/addproject', projectData);
       console.log('Project added:', response.data);
       toast.success('Project Data Submitted');
       setTitle('');
@@ -87,6 +90,7 @@ export default function AddProjects() {
       setTags('');
       setImages([]);
       setProjLink('');
+      setGithubLink('');
     } catch (error) {
       console.error('Error adding project:', error);
       toast.error('Error adding project.');
@@ -172,6 +176,14 @@ export default function AddProjects() {
             placeholder='Add Project Link'
             value={projlink}
             onChange={(e) => setProjLink(e.target.value)}
+            className='p-2 border border-indigo-900 rounded'
+          />
+
+          <input
+            type='url'
+            placeholder='Add Github Link'
+            value={githublink}
+            onChange={(e) => setGithubLink(e.target.value)}
             className='p-2 border border-indigo-900 rounded'
           />
 

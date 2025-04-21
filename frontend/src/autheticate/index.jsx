@@ -25,14 +25,13 @@ const addContent=()=>{
       </div>
       <div>
       <header>
-        <SignedOut>
-          <SignInButton />
-        </SignedOut>
+       
         <SignedIn>
           <UserButton />
         </SignedIn>
       </header>
       </div>
+    
     
     </div>
   )

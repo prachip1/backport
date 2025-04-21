@@ -7,6 +7,8 @@ import ShowTools from './show-tools';
 import AddContents from './add-contents';
 import Authenticate from './autheticate';
 import Footer from './footer';
+import ProjectSlider from './show-projects/ProjectSlider';
+import HomeProjects from './home-projects';
 
 
 export default function Home() {
@@ -17,11 +19,13 @@ export default function Home() {
   return (
     <div data-theme="black" className='font-display flex flex-col justify-center items-center gap-20'>
      {/*All components will be displayed here*/}
-  <Authenticate />
+     <Authenticate />
      {/*header*/}
      <ShowHeader />
+     <ProjectSlider />
      {/*projectes*/}
-     <ShowProjects />
+     <HomeProjects limit={2} />
+    {/**  <ShowProjects /> */}
       {/*tools i use */}
       <ShowTools />
 

@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+  /* Add this to your global CSS file */
+  .slick-track {
+    display: flex !important;
+    align-items: center; /* Optional for vertical centering */
+  }
+  
+  .slick-list {
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  /* Remove default slick margins */
+  .slick-slide {
+    padding: 0 10px !important; /* Keep your desired gap */
+    margin: 0 !important;
+  }

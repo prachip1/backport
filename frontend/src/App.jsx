@@ -9,10 +9,16 @@ import ShowProjects from './show-projects';
 import EditProject from './show-projects/EditProject';
 import ProjectCarousel from './show-projects/ProjectCarousel';
 import AddTools from './add-contents/add-tools';
+import AddSliderimage from './add-sliderimage';
 import YourApiKeys from './your-api-keys';
 import UpdateData from './updates';
 import Footer from './footer';
 import { Toaster } from 'react-hot-toast';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import HomeProjects from './home-projects';
+import Admin from './admin';
+
 
 function App() {
   return (
@@ -20,9 +26,10 @@ function App() {
       <Toaster />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/admin" element={<Admin/>} />
         <Route path="/authenticate" element={<Authenticate />} />
         <Route path="/connect-website" element={<ConnectWebsite />} />
-        
+     
         <Route
           path="/add-contents"
           element={
@@ -57,6 +64,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/add-sliderimage" element={<AddSliderimage />} />
         <Route path="/your-api-keys" element={<YourApiKeys />} />
         <Route
           path="/updates"
@@ -66,6 +74,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/homeprojects" element={<HomeProjects />} />
         <Route path="/footer" element={<Footer />} />
       </Routes>
     </div>
