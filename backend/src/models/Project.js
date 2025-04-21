@@ -21,6 +21,9 @@ const projectSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  githublink:{
+    type: String,
+  },
   clerkUserId: {  // Add this field to link projects to a Clerk user
     type: String
    

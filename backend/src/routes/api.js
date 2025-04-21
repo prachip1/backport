@@ -3,6 +3,8 @@ const crypto = require('crypto');
 const User = require('../models/User');
 const Project=require('../models/Project');
 const Tool=require('../models/Tool');
+const Slider=require('../models/Slider');
+
 const router = express.Router();
 const authenticateToken=require('../middlewares/authMiddleware')
 // Generate API key
@@ -89,7 +91,7 @@ router.get('/verify-api-key', async (req, res) => {
 
 // Route to add a new project
 router.post('/addproject', async (req, res) => {
-  const { title, tags, desc, images, projlink, clerkUserId } = req.body;
+  const { title, tags, desc, images, projlink, githublink, clerkUserId } = req.body;
   //const clerkUserId = req.clerkUserId; // Assuming you have a middleware that sets req.clerkUserId
 
   try {
@@ -99,6 +101,7 @@ router.post('/addproject', async (req, res) => {
       desc,
       images,
       projlink,
+      githublink,
       clerkUserId  // Save the clerkUserId with the project
     });
 
@@ -108,6 +111,7 @@ router.post('/addproject', async (req, res) => {
     res.status(500).json({ error: 'Failed to add project' });
   }
 });
+
 
 
 
@@ -228,6 +232,87 @@ router.put('/showprojects/:projectId', async (req, res) => {
   }
 });
 
+//route to add slider image
+
+router.post('/addsliderimage', async (req, res) => {
+  const { title, image, clerkUserId } = req.body;
+
+  try {
+    const newSlide = new Slider({
+      title,
+      image,
+      clerkUserId
+    });
+
+    await newSlide.save();
+    res.status(201).json({ success: true, message: 'Slider image added successfully', slider: newSlide });
+  } catch (err) {
+    console.error('Error saving slider image:', err);
+    res.status(500).json({ success: false, error: 'Failed to add slider image' });
+  }
+});
+
+
+
+//route to get slider images
+// Get all slider images (no user filtering needed)
+router.get('/getsliderimage', async (req, res) => {
+  try {
+    const sliderImages = await Slider.find(); // Get all sliders
+    res.status(200).json({ 
+      success: true, 
+      sliders: sliderImages 
+    });
+  } catch (error) {
+    console.error('Error fetching slider images:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Failed to fetch slider images.' 
+    });
+  }
+});
+
+
+
+//route to delete slider image
+
+// Delete a slider image by ID (with user validation)
+router.delete('/deletesliderimage', async (req, res) => {
+  const { sliderId, clerkUserId } = req.body; // Require both sliderId and clerkUserId
+
+  if (!sliderId || !clerkUserId) {
+    return res.status(400).json({ 
+      success: false, 
+      error: 'Both sliderId and clerkUserId are required.' 
+    });
+  }
+
+  try {
+    // Find and delete only if the slider belongs to the user
+    const deletedSlider = await Slider.findOneAndDelete({ 
+      _id: sliderId, 
+      clerkUserId: clerkUserId 
+    });
+
+    if (!deletedSlider) {
+      return res.status(404).json({ 
+        success: false, 
+        error: 'Slider not found or unauthorized.' 
+      });
+    }
+
+    res.status(200).json({ 
+      success: true, 
+      message: 'Slider deleted successfully.' 
+    });
+  } catch (error) {
+    console.error('Error deleting slider:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Failed to delete slider.' 
+    });
+  }
+});
 
 
 module.exports = router;
