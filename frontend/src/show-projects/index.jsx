@@ -76,7 +76,7 @@ export default function ShowProjects() {
         <div className="flex flex-wrap flex-col justify-center items-center gap-8">
           {projdata.length > 0 ? (
             projdata.map((project, index) => (
-              <div className="relative w-[50em] h-[14em] shadow-inner rounded-2xl shadow-xl/30 overflow-hidden text-gray-950 border border-gray-300 mb-8">
+              <div className="relative lg:w-[50em] lg:h-[14em] shadow-inner rounded-2xl shadow-xl/30 overflow-hidden text-gray-950 border border-gray-300 mb-8">
               {/* Admin Controls */}
               {user && (
                 <div className='absolute top-2 right-2 z-10 flex gap-2 bg-white/10 p-1 rounded'>
@@ -96,9 +96,9 @@ export default function ShowProjects() {
               )}
             
               {/* Card Content */}
-              <div className="flex h-full">
+              <div className="flex flex-col lg:flex-row h-full">
                 {/* Image Section */}
-                <div className="w-[40%] h-full border-r border-gray-300 overflow-hidden">
+                <div className="lg:w-[40%] h-full border-r border-gray-300 overflow-hidden">
                   <img
                     src={project.images?.[0] || '/placeholder-project.jpg'} 
                     alt={project.title}
@@ -108,8 +108,8 @@ export default function ShowProjects() {
             
                 {/* Text Content */}
                 <div className="w-full md:w-2/3 p-6">
-                  <h3 className="text-2xl font-semibold mb-2">{project.title}</h3>
-                  <p className="text-gray-800 mb-4">{project.desc}</p>
+                  <h3 className="lg:text-2xl font-semibold mb-2">{project.title}</h3>
+                  <p className="text-gray-800 mb-4 text-sm lg:text-lg">{project.desc}</p>
             
                   {/* Tags */}
                   <div className="flex flex-wrap gap-2 mb-4">
