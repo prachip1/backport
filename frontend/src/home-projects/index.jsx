@@ -84,9 +84,9 @@ export default function HomeProjects({ limit }) {
                                       {/**  <h4 className="text-sm font-semibold text-gray-400 mb-2">Features</h4> */} 
                                         <div className="flex flex-wrap gap-2">
                                             <span className="text-xs bg-green-400/50 text-green-700 px-3 py-1 rounded-full cursor-pointer">
-                                            <a herf={project.githublink} target="_blank"><ImGithub/></a></span>
+                                            <a href={project.githublink} target="_blank" rel="noopener noreferrer"><ImGithub/></a></span>
                                             <span className="text-xs bg-pink-400/50 text-pink-700 px-3 py-1 rounded-full cursor-pointer">
-                                            <a href={project.projlink} target='_blank'><TbExternalLink /></a></span>
+                                            <a href={project.projlink} target='_blank' rel="noopener noreferrer"><TbExternalLink /></a></span>
                                          {/** <span className="text-xs  bg-indigo-500/20 text-indigo-200  px-3 py-1 rounded-full">AI-Powered</span> */}
                                         </div>
                                       </div>
