@@ -19,10 +19,13 @@ import "slick-carousel/slick/slick-theme.css";
 import HomeProjects from './home-projects';
 import Admin from './admin';
 
+import { Analytics } from "@vercel/analytics/react"
+
 
 function App() {
   return (
     <div>
+       <Analytics />
       <Toaster />
       <Routes>
         <Route path="/" element={<Home />} />
