@@ -3,28 +3,22 @@ import axios from 'axios';
 import { useUser } from '@clerk/clerk-react';
 import { Toaster, toast } from 'react-hot-toast';
 import { toolIcons } from '@/toolsIcons';
-import { useNavigate } from 'react-router-dom';
+import { FiTrash2 } from 'react-icons/fi';
 
 export default function ShowTools() {
   const [userTools, setUserTools] = useState([]);
-  const { user } = useUser(); // Get the logged-in user
-  const navigate = useNavigate();
+  const { user } = useUser();
 
-  // Fetch user's tools from the database
   const fetchUserTools = async () => {
     try {
       const response = await axios.get('https://backport-backend.vercel.app/api/gettools');
       setUserTools(response.data);
-    } catch (error) {
-      console.error('Error fetching user tools:', error);
+    } catch {
       toast.error('Error fetching tools.');
     }
   };
 
-  // Call fetchUserTools on component mount
-  useEffect(() => {
-    fetchUserTools();
-  }, [user]);
+  useEffect(() => { fetchUserTools(); }, [user]);
 
   const goDelete = async (toolId) => {
     try {
@@ -32,49 +26,44 @@ export default function ShowTools() {
         data: { toolId },
       });
       toast.success(res.data.message);
-      // Refetch the tools to update the UI after deletion
       fetchUserTools();
-    } catch (error) {
-      console.error('Error deleting tool:', error);
+    } catch {
       toast.error('Error deleting tool.');
     }
   };
 
-  return (
-    <div className='flex w-screen lg:w-full justify-center items-center'>
-      <div className="flex flex-col justify-center items-center gap-8 mb-14">
-        <h2 className="text-3xl">Tools I use.</h2>
-        <Toaster />
-        <div className="flex flex-col lg:flex-row justify-center items-center lg:mt-20 gap-8">
-          {userTools.length > 0 ? (
-            <div className="flex flex-wrap justify-center items-center gap-4">
-              {userTools.map((tool) => {
-                const toolData = toolIcons.find((icon) => icon.name === tool.toolname);
-
-                return (
-                  <div key={tool._id} className="flex flex-col items-center justify-center p-4 rounded-lg text-center  w-32">
-                    {user && (
-                      <p
-                        className="text-sm font-semibold text-red-600 hover:text-red-400 cursor-pointer"
-                        onClick={() => goDelete(tool._id)}
-                      >
-                        Delete
-                      </p>
-                    )}
-                    <div className="text-xl lg:text-6xl">
-                      {toolData ? toolData.icon : null}
-                    </div>
-                    <p className="mt-2 text-sm lg:text-base">{tool.toolname}</p>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <p>No tools added yet.</p>
-          )}
-        
-        </div>
+  if (userTools.length === 0) {
+    return (
+      <div className="text-center py-8 text-gray-400 text-sm">
+        <Toaster position="top-right" />
+        No tools added yet.
       </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-wrap gap-3">
+      <Toaster position="top-right" />
+      {userTools.map((tool) => {
+        const toolData = toolIcons.find((icon) => icon.name === tool.toolname);
+        return (
+          <div
+            key={tool._id}
+            className="group relative flex flex-col items-center justify-center gap-1.5 p-3 rounded-xl border border-gray-200 w-24 bg-white hover:border-gray-300 transition"
+          >
+            {user && (
+              <button
+                onClick={() => goDelete(tool._id)}
+                className="absolute top-1.5 right-1.5 p-1 rounded-md text-gray-300 hover:text-red-500 hover:bg-red-50 opacity-0 group-hover:opacity-100 transition"
+              >
+                <FiTrash2 className="text-xs" />
+              </button>
+            )}
+            <span className="text-3xl">{toolData ? toolData.icon : null}</span>
+            <span className="text-xs text-gray-600 text-center leading-tight">{tool.toolname}</span>
+          </div>
+        );
+      })}
     </div>
   );
 }

@@ -1,9 +1,9 @@
-// EditProject.jsx
-
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import ProjectCarousel from './ProjectCarousel';
+import { FiSave, FiArrowLeft } from 'react-icons/fi';
+import { toast, Toaster } from 'react-hot-toast';
 
 export default function EditProject() {
   const [project, setProject] = useState(null);
@@ -15,22 +15,20 @@ export default function EditProject() {
       try {
         const response = await axios.get(`https://backport-backend.vercel.app/api/showprojects/${projectId}`);
         setProject(response.data);
-      } catch (error) {
-        console.error('Error fetching project:', error);
+      } catch {
+        toast.error('Failed to load project.');
       }
     };
-
     fetchProject();
   }, [projectId]);
 
   const handleUpdate = async () => {
     try {
-      const response = await axios.put(`https://backport-backend.vercel.app/api/showprojects/${projectId}`, project);
-      alert(response.data.message);
-      navigate('/show-projects'); // Redirect back to the projects page
-    } catch (error) {
-      console.error('Error updating project:', error);
-      alert('Failed to update project');
+      await axios.put(`https://backport-backend.vercel.app/api/showprojects/${projectId}`, project);
+      toast.success('Project updated!');
+      setTimeout(() => navigate('/show-projects'), 1000);
+    } catch {
+      toast.error('Failed to update project.');
     }
   };
 
@@ -40,58 +38,93 @@ export default function EditProject() {
   };
 
   if (!project) {
-    return <p>Loading project...</p>;
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3 text-gray-400">
+          <span className="w-8 h-8 border-2 border-gray-300 border-t-indigo-500 rounded-full animate-spin" />
+          <p className="text-sm">Loading project...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="flex flex-col items-center w-full p-4 lg:p-8">
-      {/* Carousel */}
-      <div className="w-full max-w-4xl mb-8">
-      <h2 className="text-4xl font-bold mb-4">{project.title}</h2>
+    <div className="min-h-screen bg-gray-50 p-6 md:p-10">
+      <Toaster position="top-right" />
+      <div className="max-w-3xl mx-auto">
+        <div className="flex items-center gap-3 mb-8">
+          <button
+            onClick={() => navigate('/show-projects')}
+            className="p-2 rounded-lg border border-gray-200 hover:bg-gray-100 text-gray-600 transition"
+          >
+            <FiArrowLeft />
+          </button>
+          <div>
+            <h1 className="text-xl font-bold text-gray-900">Edit Project</h1>
+            <p className="text-sm text-gray-500">{project.title}</p>
+          </div>
+        </div>
+
+        {/* Image Carousel */}
         {project.images && project.images.length > 0 && (
-          <ProjectCarousel images={project.images} title={project.title} className="h-full w-full" />
+          <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden mb-6">
+            <ProjectCarousel images={project.images} title={project.title} />
+          </div>
         )}
-      </div>
 
-      {/* Project Details */}
-      <div className="flex flex-col justify-center w-full gap-8 mt-20">
-       
-        
-        <div className="flex justify-center items-center mt-8 gap-8">
-          <label className="text-lg font-semibold">Description:</label>
-          <textarea
-            name="desc"
-            value={project.desc}
-            onChange={handleInputChange}
-            className="textarea textarea-bordered w-full h-32 border border-gray-600 rounded-md"
-          ></textarea>
-        </div>
-        
-        <div className="flex justify-center items-center mt-8 gap-8">
-          <label className="text-lg font-semibold">Tags</label>
-          <input
-            type="text"
-            name="tags"
-            value={project.tags}
-            onChange={handleInputChange}
-            className="input input-bordered w-full mt-2"
-          />
-        </div>
-        
-        <div className="flex justify-center items-center mt-8 gap-8">
-          <label className="text-lg font-semibold">Link</label>
-          <input
-            type="url"
-            name="projlink"
-            value={project.projlink}
-            onChange={handleInputChange}
-            className="input input-bordered w-full mt-2"
-          />
-        </div>
+        {/* Edit Form */}
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 md:p-8 flex flex-col gap-5">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">Description</label>
+            <textarea
+              name="desc"
+              value={project.desc}
+              onChange={handleInputChange}
+              rows={5}
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition resize-none"
+            />
+          </div>
 
-        {/* Update Button */}
-        <div className="flex justify-center mt-8">
-          <button onClick={handleUpdate} className="btn bg-gray-800 text-white px-6 py-2 rounded-md">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">Tags</label>
+            <input
+              type="text"
+              name="tags"
+              value={project.tags}
+              onChange={handleInputChange}
+              placeholder="e.g. React, Node.js"
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+            />
+            <p className="text-xs text-gray-400 mt-1">Separate tags with commas</p>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">Live Project URL</label>
+            <input
+              type="url"
+              name="projlink"
+              value={project.projlink}
+              onChange={handleInputChange}
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">GitHub URL</label>
+            <input
+              type="url"
+              name="githublink"
+              value={project.githublink || ''}
+              onChange={handleInputChange}
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+            />
+          </div>
+
+          <button
+            onClick={handleUpdate}
+            className="mt-2 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg transition flex items-center justify-center gap-2"
+          >
+            <FiSave />
             Save Changes
           </button>
         </div>

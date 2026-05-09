@@ -1,48 +1,69 @@
 import React from 'react'
-import AddProjects from './add-projects'
-import AddTools from './add-tools'
 import { useNavigate } from 'react-router-dom'
+import { FiFolder, FiTool, FiKey, FiArrowRight } from 'react-icons/fi'
+import { MdOutlineDashboardCustomize } from 'react-icons/md'
+
+const cards = [
+  {
+    icon: <FiFolder className="text-2xl" />,
+    title: 'Add Projects',
+    desc: 'Upload new projects with images, links, and tags.',
+    route: '/add-projects',
+    color: 'bg-indigo-50 text-indigo-600 border-indigo-100',
+  },
+  {
+    icon: <FiTool className="text-2xl" />,
+    title: 'Add Tools',
+    desc: 'Select and save the tech stack you work with.',
+    route: '/add-tools',
+    color: 'bg-violet-50 text-violet-600 border-violet-100',
+  },
+  {
+    icon: <FiKey className="text-2xl" />,
+    title: 'Your API Keys',
+    desc: 'View and copy your generated API keys.',
+    route: '/your-api-keys',
+    color: 'bg-emerald-50 text-emerald-600 border-emerald-100',
+  },
+]
 
 export default function AddContents() {
-const navigate = useNavigate()
-
-  const addingProjects=()=>{
-    navigate('/add-projects')
-  }
-
-  const addingTools=()=>{
-    navigate('/add-tools')
-  }
-
-
-const viewApiKeys=()=>{
-  navigate('/your-api-keys');
-}
-
+  const navigate = useNavigate()
 
   return (
-    <div className="flex flex-col p-8 m-8 gap-8">
-      <div className='mb-8'>
-      <h2 className='text-xl font-mono font-bold'>Hey here you can add contents to your portfolio</h2>
+    <div className="min-h-screen bg-gray-50 p-8">
+      <div className="max-w-3xl mx-auto">
+        <div className="mb-10 flex items-center gap-3">
+          <div className="bg-indigo-600 text-white p-2 rounded-lg">
+            <MdOutlineDashboardCustomize className="text-2xl" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Content Dashboard</h1>
+            <p className="text-gray-500 text-sm mt-0.5">Manage your portfolio content from here</p>
+          </div>
+        </div>
+
+        <div className="grid gap-4">
+          {cards.map((card) => (
+            <button
+              key={card.route}
+              onClick={() => navigate(card.route)}
+              className="flex items-center justify-between bg-white border border-gray-200 rounded-xl p-5 hover:border-indigo-300 hover:shadow-sm transition-all group text-left"
+            >
+              <div className="flex items-center gap-4">
+                <div className={`p-3 rounded-lg border ${card.color}`}>
+                  {card.icon}
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-900">{card.title}</p>
+                  <p className="text-sm text-gray-500 mt-0.5">{card.desc}</p>
+                </div>
+              </div>
+              <FiArrowRight className="text-gray-400 group-hover:text-indigo-500 group-hover:translate-x-1 transition-all" />
+            </button>
+          ))}
+        </div>
       </div>
-         {/* Your API Keys */}
-         <button
-        className="border-2 border-indigo-900 p-6 w-44 rounded-lg text-gray-800 hover:bg-indigo-200 font-semibold"
-        onClick={viewApiKeys}
-      >
-        Your API keys
-      </button>
-      
-      {/*add projects */}
-      <button className='border-2 border-indigo-900 p-6 w-44 rounded-lg text-gray-800
-       hover:bg-indigo-200 font-semibold' 
-      onClick={addingProjects}>Add Projects</button>
-     
-      {/*add tools*/}
-      <button className='border-2 border-indigo-900 p-6 w-44 rounded-lg text-gray-800
-       hover:bg-indigo-200 font-semibold' 
-      onClick={addingTools}>Add Tools</button>
-      
     </div>
   )
 }
