@@ -3,7 +3,8 @@
     "allow": [
       "Bash(npm install *)",
       "PowerShell(netstat *)",
-      "PowerShell(taskkill *)"
+      "PowerShell(taskkill *)",
+      "Bash(curl -s https://backport-backend.vercel.app/api/showprojects)"
     ]
   }
 }

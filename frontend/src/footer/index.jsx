@@ -2,8 +2,8 @@ import React from 'react'
 
 export default function Footer() {
   return (
-    <div>
-      <h2>Coded with 😠 by <a href="https://www.instagram.com/justgetajobprachi/" className='text-blue-900 underline'>Prachi P</a></h2>
-    </div>
+    <footer className="text-center text-sm text-gray-500 pt-6 border-t border-gray-100">
+      Coded by <a href="https://www.instagram.com/justgetajobprachi/" className="text-gray-900 underline underline-offset-2">Prachi P</a>
+    </footer>
   )
 }
